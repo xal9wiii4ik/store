@@ -8,7 +8,7 @@ from user_profile.serializer import UserProfileModelSerializer
 
 
 class UserProfileViewSet(ModelViewSet):
-    """View для профиля пользователя"""
+    """View for user profile"""
 
     queryset = UserProfile.objects.all().annotate(
         first_name=F('user__first_name'),

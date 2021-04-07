@@ -13,7 +13,7 @@ from user_profile.models import UserProfile
 
 
 class CategoryApiTestCase(APITestCase):
-    """Апи тесты для категорий"""
+    """Api test for categories"""
 
     def setUp(self):
         password = make_password('password')
@@ -47,7 +47,7 @@ class CategoryApiTestCase(APITestCase):
         self.category_1 = Category.objects.create(name='category_1')
 
     def test_get(self):
-        """Тест для получения списка категорий"""
+        """Get categories"""
 
         url = reverse('category-list')
         categories = Category.objects.all()
@@ -57,7 +57,7 @@ class CategoryApiTestCase(APITestCase):
                          response.data)
 
     def test_create_staff(self):
-        """Тест для создания категории администратором"""
+        """Create category (admin token)"""
 
         self.assertEqual(2, Category.objects.all().count())
         url = reverse('category-list')
@@ -72,8 +72,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(3, Category.objects.all().count())
 
     def test_create_staff_exist_name(self):
-        """Тест для создания категории администратором
-        существующее имя категории"""
+        """Create exist category (admin token)"""
 
         self.assertEqual(2, Category.objects.all().count())
         url = reverse('category-list')
@@ -88,7 +87,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(2, Category.objects.all().count())
 
     def test_create_not_staff(self):
-        """Тест для создания категории пользователем"""
+        """Create category (not admin token)"""
 
         self.assertEqual(2, Category.objects.all().count())
         url = reverse('category-list')
@@ -103,7 +102,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(2, Category.objects.all().count())
 
     def test_update_staff(self):
-        """Тест для обновления категории администратором"""
+        """Update category (admin token)"""
 
         self.assertEqual('category_1', self.category_1.name)
         url = reverse('category-detail', args=(self.category_1.id,))
@@ -119,8 +118,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual('update_category', self.category_1.name)
 
     def test_update_staff_exist_name(self):
-        """Тест для обновления категории администратором
-        существующее имя категории"""
+        """Update exist category (admin token)"""
 
         self.assertEqual('category_1', self.category_1.name)
         url = reverse('category-detail', args=(self.category_1.id,))
@@ -134,7 +132,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_400_BAD_REQUEST, response.status_code)
 
     def test_update_not_staff(self):
-        """Тест для обновления категории пользователем"""
+        """Update category (not admin token)"""
 
         self.assertEqual('category_1', self.category_1.name)
         url = reverse('category-detail', args=(self.category_1.id,))
@@ -148,7 +146,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
     def test_delete_staff(self):
-        """Тест для удаления категории администратором"""
+        """Delete category (admin token)"""
 
         self.assertEqual(2, Category.objects.all().count())
         url = reverse('category-detail', args=(self.category_1.id,))
@@ -158,7 +156,7 @@ class CategoryApiTestCase(APITestCase):
         self.assertEqual(1, Category.objects.all().count())
 
     def test_delete_not_staff(self):
-        """Тест для удаления категории пользователем"""
+        """Delete category (not admin token)"""
 
         self.assertEqual(2, Category.objects.all().count())
         url = reverse('category-detail', args=(self.category_1.id,))
@@ -170,7 +168,7 @@ class CategoryApiTestCase(APITestCase):
 
 
 class ProductApiTestCase(APITestCase):
-    """Апи тесты для продуктов"""
+    """Api test products"""
 
     def setUp(self):
         password = make_password('password')
@@ -236,7 +234,7 @@ class ProductApiTestCase(APITestCase):
                                                 category=self.category_1)
 
     def test_get(self):
-        """Тест для получения списка продуктов"""
+        """Get products"""
 
         url = reverse('product-list')
         products = Product.objects.all().annotate(
@@ -248,7 +246,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(data, response.data)
 
     def test_create_is_shop(self):
-        """Тест для создания продукта магазином"""
+        """Create product (shop token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-list')
@@ -268,7 +266,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(3, Product.objects.all().count())
 
     def test_create_not_shop_but_staff(self):
-        """Тест для создания продукта не магазином а администратором"""
+        """Create product (admin token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-list')
@@ -288,7 +286,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(3, Product.objects.all().count())
 
     def test_create_not_shop(self):
-        """Тест для создания продукта не магазином а администратором"""
+        """Create product (user token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-list')
@@ -308,7 +306,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(2, Product.objects.all().count())
 
     def test_update_owner(self):
-        """Тест для обновления полей продукта владельцем"""
+        """Update product (shop token)"""
 
         self.assertEqual(self.category_1.id, self.product_1.category.id)
         self.assertEqual(0.00, self.product_1.discount)
@@ -332,7 +330,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(self.category.id, self.product_1.category.id)
 
     def test_update_not_owner_but_staff(self):
-        """Тест для обновления полей продукта не владельцем а администратором"""
+        """Update product (admin token)"""
 
         self.assertEqual(self.category_1.id, self.product_1.category.id)
         self.assertEqual(0.00, self.product_1.discount)
@@ -356,7 +354,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(self.category.id, self.product_1.category.id)
 
     def test_update_not_owner(self):
-        """Тест для обновления полей продукта не владельцем"""
+        """Update product (user token)"""
 
         url = reverse('product-detail', args=(self.product_1.id,))
         data = {
@@ -375,7 +373,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
     def test_delete_owner(self):
-        """Тест для удаления продукта владельцем"""
+        """Delete product (shop token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-detail', args=(self.product_1.id,))
@@ -385,7 +383,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(1, Product.objects.all().count())
 
     def test_delete_not_owner_but_staff(self):
-        """Тест для удаления продукта не владельцем а администратором"""
+        """Delete product (admin token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-detail', args=(self.product_1.id,))
@@ -395,7 +393,7 @@ class ProductApiTestCase(APITestCase):
         self.assertEqual(1, Product.objects.all().count())
 
     def test_delete_not_owner(self):
-        """Тест для удаления продукта не владельцем а администратором"""
+        """Delete product (user token)"""
 
         self.assertEqual(2, Product.objects.all().count())
         url = reverse('product-detail', args=(self.product_1.id,))

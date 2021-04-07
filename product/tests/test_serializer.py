@@ -7,10 +7,10 @@ from product.serializer import CategoryModelSerializer, ProductModelSerializer
 
 
 class CategorySerializerTestCase(TestCase):
-    """Тест для сериалайзера категории"""
+    """Test for category serializer"""
 
     def test_ok(self):
-        """Тест для проверки валидации сериалайзера категории"""
+        """Validate category serializer"""
 
         category = Category.objects.create(name='category')
         category_1 = Category.objects.create(name='category_1')
@@ -32,10 +32,10 @@ class CategorySerializerTestCase(TestCase):
 
 
 class ProductSerializerTestCase(TestCase):
-    """Тест для сериалайзера продуктов"""
+    """Test for product serializer"""
 
     def test_ok(self):
-        """Тест для проверки валидации сериалайзера продуктов"""
+        """Validate product serializer"""
 
         user = User.objects.create(username='user',
                                    is_active=True,

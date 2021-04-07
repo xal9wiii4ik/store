@@ -14,7 +14,7 @@ from user_profile.serializer import UserProfileModelSerializer
 
 
 class UserProfileApiTestCase(APITestCase):
-    """Тест для профиля пользователя"""
+    """Test user profile"""
 
     def setUp(self):
         url = reverse('auth_path:token')
@@ -69,8 +69,7 @@ class UserProfileApiTestCase(APITestCase):
                                                         is_shop=True)
 
     def test_get_staff(self):
-        """Тест для получения списка
-        профилей пользователей администратором"""
+        """Get user profiles (admin token)"""
 
         url = reverse('userprofile-list')
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
@@ -86,8 +85,7 @@ class UserProfileApiTestCase(APITestCase):
                          response.data)
 
     def test_get_not_staff(self):
-        """Тест для получения списка
-        профилей пользователей обычным пользователем"""
+        """Get user profiles (user token)"""
 
         url = reverse('userprofile-list')
         self.client.credentials(HTTP_AUTHORIZATION=self.token_1)
@@ -95,8 +93,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
     def test_impossible_create_staff(self):
-        """Тест для невозможности создания профиля пользователя
-        кем-либо и администратором"""
+        """Create user profiles (haven`t permission)"""
 
         self.assertEqual(2, UserProfile.objects.all().count())
         url = reverse('userprofile-list')
@@ -115,7 +112,7 @@ class UserProfileApiTestCase(APITestCase):
             self.assertTrue(False)
 
     def test_delete_owner(self):
-        """Тест для удаления профиля пользователя владельцем"""
+        """Delete profile (user token)"""
 
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))
         self.client.credentials(HTTP_AUTHORIZATION=self.token_1)
@@ -123,7 +120,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
 
     def test_delete_not_owner(self):
-        """Тест для удаления профиля пользователя не владельцем"""
+        """Delete profile (different user token)"""
 
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))
         self.client.credentials(HTTP_AUTHORIZATION=self.token_2)
@@ -131,7 +128,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
     def test_delete_not_owner_but_staff(self):
-        """Тест для удаления профиля пользователя не владельцем"""
+        """Delete profile (admin token)"""
 
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
@@ -139,7 +136,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
 
     def test_update_owner(self):
-        """Тест для измениния полей профиля пользователя владельцем"""
+        """Update profile (user token)"""
 
         self.assertEqual('phone_1', UserProfile.objects.get(id=self.userprofile_1.id).phone)
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))
@@ -155,7 +152,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual('Iphone', UserProfile.objects.get(id=self.userprofile_1.id).phone)
 
     def test_update_not_owner(self):
-        """Тест для измениния полей профиля пользователя не владельцем"""
+        """Update profile (different user token)"""
 
         self.assertEqual('phone_1', UserProfile.objects.get(id=self.userprofile_1.id).phone)
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))
@@ -169,7 +166,7 @@ class UserProfileApiTestCase(APITestCase):
         self.assertEqual(status.HTTP_403_FORBIDDEN, response.status_code)
 
     def test_update_not_owner_but_staff(self):
-        """Тест для измениния полей профиля пользователя администратором"""
+        """Update profile (admin token)"""
 
         self.assertEqual('phone_1', UserProfile.objects.get(id=self.userprofile_1.id).phone)
         url = reverse('userprofile-detail', args=(self.userprofile_1.id,))

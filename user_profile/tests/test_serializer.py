@@ -7,10 +7,10 @@ from user_profile.serializer import UserProfileModelSerializer
 
 
 class UserProfileTestCase(TestCase):
-    """Тест для сериалайзера профиля пользователя"""
+    """Test for userprofile serializer"""
 
     def test_ok(self):
-        """Тест для проверки валидации сериалайзера профиля пользователя"""
+        """Validation data of userprofile"""
 
         self.user = User.objects.create(username='user',
                                         email='email@mail.ru',

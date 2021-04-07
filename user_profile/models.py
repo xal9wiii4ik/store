@@ -3,7 +3,7 @@ from django.db import models
 
 
 class UserProfile(models.Model):
-    """Модель профиля пользователя"""
+    """User profile model"""
 
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name='Пользователь профиля')
     phone = models.CharField(max_length=25, blank=True, verbose_name='Телефон пользователя')

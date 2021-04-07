@@ -4,7 +4,7 @@ from user_profile.models import UserProfile
 
 
 class UserProfileModelSerializer(serializers.ModelSerializer):
-    """Модель сериалайзер для профиля пользователя"""
+    """Serializer for User profile"""
 
     first_name = serializers.CharField(max_length=60, read_only=True)
     last_name = serializers.CharField(max_length=60, read_only=True)
