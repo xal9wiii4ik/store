@@ -11,8 +11,9 @@ Auth based on django crm project
 4) djoser(this only for custom functional of verificate user for my experience)
 5) django-cleanup
 6) social auth
-7) requests(this only for custom functional)
-8) Unit test(cover all fucntions)
+7) smtp
+8) requests(this only for custom functional)
+9) Unit test(cover all functions)
 
 # date the code was written: 15.09.2020
 
