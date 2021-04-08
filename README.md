@@ -15,5 +15,7 @@ Auth based on django crm project
 8) requests(this only for custom functional)
 9) Unit test(cover all functions)
 
+# Database MySQL
+
 # date the code was written: 15.09.2020
 
